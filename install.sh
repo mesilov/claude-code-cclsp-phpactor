@@ -3,9 +3,6 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-echo "Building Docker image cclsp-phpactor:latest..."
-docker build -t cclsp-phpactor:latest "${SCRIPT_DIR}"
-
 if [ ! -f "${SCRIPT_DIR}/cclsp.json" ]; then
     cp "${SCRIPT_DIR}/cclsp.json.example" "${SCRIPT_DIR}/cclsp.json"
     echo "Created cclsp.json from template. Edit it to add your projects."

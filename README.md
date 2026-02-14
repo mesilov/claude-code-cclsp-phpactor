@@ -12,7 +12,7 @@ Centralized Phpactor LSP configuration for Claude Code. A single repository serv
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/<your-username>/cclsp-phpactor.git ~/tools/cclsp-phpactor
+git clone https://github.com/mesilov/claude-code-cclsp-phpactor.git ~/tools/cclsp-phpactor
 cd ~/tools/cclsp-phpactor
 
 # 2. Build the Docker image and register the MCP server

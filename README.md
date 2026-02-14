@@ -1,36 +1,36 @@
 # cclsp-phpactor
 
-Централизованная конфигурация Phpactor LSP для Claude Code. Один репозиторий обслуживает все ваши PHP-проекты — без дублирования настроек в каждом из них.
+Centralized Phpactor LSP configuration for Claude Code. A single repository serves all your PHP projects — no need to duplicate settings in each one.
 
-## Требования
+## Requirements
 
 - [Docker](https://docs.docker.com/get-docker/)
-- [Node.js](https://nodejs.org/) (для `npx`)
-- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) (`claude` в PATH)
+- [Node.js](https://nodejs.org/) (for `npx`)
+- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) (`claude` in PATH)
 
-## Установка
+## Installation
 
 ```bash
-# 1. Клонируйте репозиторий
+# 1. Clone the repository
 git clone https://github.com/<your-username>/cclsp-phpactor.git ~/tools/cclsp-phpactor
 cd ~/tools/cclsp-phpactor
 
-# 2. Соберите Docker-образ и зарегистрируйте MCP-сервер
+# 2. Build the Docker image and register the MCP server
 make install
 ```
 
-`make install` выполняет:
-- сборку Docker-образа `cclsp-phpactor:latest` (PHP 8.4 + Phpactor)
-- создание `cclsp.json` из шаблона (если файл ещё не существует)
-- регистрацию cclsp как user-scope MCP-сервера в Claude Code
+`make install` performs:
+- Building the `cclsp-phpactor:latest` Docker image (PHP 8.4 + Phpactor)
+- Creating `cclsp.json` from the template (if the file doesn't exist yet)
+- Registering cclsp as a user-scope MCP server in Claude Code
 
-После установки отредактируйте `cclsp.json` и перезапустите Claude Code.
+After installation, edit `cclsp.json` and restart Claude Code.
 
-## Добавление проекта
+## Adding a Project
 
-### 1. Настройте cclsp.json
+### 1. Configure cclsp.json
 
-Добавьте запись для каждого PHP-проекта:
+Add an entry for each PHP project:
 
 ```json
 {
@@ -44,48 +44,48 @@ make install
 }
 ```
 
-Все пути должны быть абсолютными. Поле `rootDir` указывает cclsp, какой сервер использовать для файлов из данной директории.
+All paths must be absolute. The `rootDir` field tells cclsp which server to use for files in that directory.
 
-### 2. Подготовьте проект
+### 2. Prepare the project
 
-В корне PHP-проекта создайте `.phpactor.yml` с настройками индексации:
+Create `.phpactor.yml` in the root of your PHP project with indexing settings:
 
 ```yaml
 # .phpactor.yml
 indexer.enabled_watchers: []
 ```
 
-Добавьте кеш Phpactor в `.gitignore` проекта:
+Add the Phpactor cache to the project's `.gitignore`:
 
 ```
 var/cache/phpactor/
 ```
 
-### 3. Перезапустите Claude Code
+### 3. Restart Claude Code
 
-Изменения в `cclsp.json` подхватываются только после перезапуска.
+Changes to `cclsp.json` are picked up only after a restart.
 
-## Обновление
+## Updating
 
 ```bash
 cd ~/tools/cclsp-phpactor
 git pull && make build
 ```
 
-## Удаление
+## Uninstalling
 
 ```bash
 cd ~/tools/cclsp-phpactor
 make uninstall
 ```
 
-При необходимости удалите Docker-образ вручную:
+To also remove the Docker image:
 
 ```bash
 docker rmi cclsp-phpactor:latest
 ```
 
-## Как это работает
+## How It Works
 
 ```
 ~/.claude.json (user-scope MCP)
@@ -96,7 +96,7 @@ docker rmi cclsp-phpactor:latest
           → phpactor language-server
 ```
 
-- Claude Code подключается к cclsp через MCP (stdio)
-- cclsp читает `cclsp.json` и маршрутизирует LSP-запросы к нужному экземпляру Phpactor по `rootDir`
-- Каждый проект запускается в отдельном Docker-контейнере, без конфликтов портов
-- Код проекта монтируется в read-only режиме, кеш хранится в `<project>/var/cache/phpactor/`
+- Claude Code connects to cclsp via MCP (stdio)
+- cclsp reads `cclsp.json` and routes LSP requests to the appropriate Phpactor instance based on `rootDir`
+- Each project runs in a separate Docker container with no port conflicts
+- Project code is mounted read-only; cache is stored in `<project>/var/cache/phpactor/`

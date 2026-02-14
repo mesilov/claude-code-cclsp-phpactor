@@ -61,6 +61,12 @@ Add the Phpactor cache to the project's `.gitignore`:
 var/cache/phpactor/
 ```
 
+Add the following instruction to the project's `CLAUDE.md` so that Claude automatically checks for errors after editing PHP files:
+
+```markdown
+After editing PHP files, always run `mcp__cclsp__get_diagnostics` on the changed files to check for errors and fix them before proceeding.
+```
+
 ### 3. Restart Claude Code
 
 Changes to `cclsp.json` are picked up only after a restart.

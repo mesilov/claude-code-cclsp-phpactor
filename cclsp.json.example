@@ -1,0 +1,14 @@
+{
+  "servers": [
+    {
+      "extensions": ["php"],
+      "command": ["/absolute/path/to/cclsp-phpactor/phpactor-lsp.sh", "/absolute/path/to/project-1"],
+      "rootDir": "/absolute/path/to/project-1"
+    },
+    {
+      "extensions": ["php"],
+      "command": ["/absolute/path/to/cclsp-phpactor/phpactor-lsp.sh", "/absolute/path/to/project-2"],
+      "rootDir": "/absolute/path/to/project-2"
+    }
+  ]
+}
